@@ -14,7 +14,21 @@ bd = mysql.connector.connect(
     buffered=True
 )
 
-       
+def eliminar():
+    confir=messagebox.askyesno(title="Eliminar alumno",message="¿Seguro que desea eliminar su cuenta?")
+    if confir:
+        cursor=bd.cursor()
+        for x in range(1,5):
+            cursor.execute("DELETE FROM `materias` WHERE `materias`.`unidad` = %s AND `materias`.`alumno` = %s;",(x,alumno.get()))
+        bd.commit()
+        cursor.close()
+        ventana.withdraw()
+        messagebox.showinfo(title="Correcto",message="Eliminacion exitosa")
+        paz()
+    else:
+        return
+    
+    
 def actualizar():
     
     if not Unidad.get() or not Programacion.get() or not Conta.get() or not Quimica.get() or not Algebra.get() or not Calculo.get() or not Probabilidad.get() or not Ingles.get():
@@ -253,8 +267,10 @@ def llamar():
     boton1.place(x=200, y=200)
 
     boton2 = CTkButton(ventana, text="Salir", width=10,command=cerrar_sesion)
-    boton2.place(x=400, y=200)
-
+    boton2.place(x=600, y=200)
+    
+    boton3 = CTkButton(ventana,text="Eliminar",command=eliminar,width=10)
+    boton3.place(x=400,y=200)
     ventana.mainloop()
     print(alumno_s,contraseña_s)
 
@@ -273,19 +289,20 @@ def inicio():
     resultado = cursor.fetchone()
     
     if alumno_s!="" or contraseña_s!="":
-      
+        if resultado is not None:
+            pass
+        else:
+            messagebox.showinfo(title="¿Alumno?",message="El alumno al que intenta acceder no esta registrado o fue eliminado")
+            return
         if resultado[2] == contraseña_s:
-            
-            alumno_global=alumno.get()
-            contraseña_global=contraseña.get()
             
             cursor.close()
             inicio_sesion.withdraw()
             llamar()
             
         else:
-          
             messagebox.showerror(title="Contraseña incorrecta", message="La contraseña es incorrecta")
+            return
             
     else:
       

@@ -1,0 +1,412 @@
+import customtkinter
+import mysql.connector
+from tkinter import messagebox
+from tkinter import ttk
+customtkinter.set_default_color_theme("green")
+from customtkinter import CTk, CTkFrame, CTkLabel, CTkButton, CTkEntry
+
+
+bd = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="",
+    database="calificaciones",
+    buffered=True
+)
+
+       
+def actualizar():
+    
+    if not Unidad.get() or not Programacion.get() or not Conta.get() or not Quimica.get() or not Algebra.get() or not Calculo.get() or not Probabilidad.get() or not Ingles.get():
+        messagebox.showwarning(title="Vacio?",message="Los campos no pueden estar vacios")
+        return
+
+    try:
+        V_unidad=int(Unidad.get())
+    except ValueError as error:
+        messagebox.showerror(title="Error de datos",message="Los datos ingresados en unidad deben de ser numeros\n\nError: "+str(error))
+        return
+    if V_unidad>=1 and V_unidad<=5:
+            pass
+    else:
+        messagebox.showinfo(title="Unidad no valida",message="La unidad "+str(V_unidad)+" no es una unidad validad\nsolo se aceptan unidades del 1 al 4")
+        return
+    
+    try:
+        V_programacion=int(Programacion.get())
+    except ValueError as error:
+        messagebox.showerror(title="Error de datos",message="Los datos ingresados en programacion deben ser numeros")
+        return
+    if V_programacion>=0 and V_programacion<=100:
+        pass
+    else:
+        messagebox.showinfo(title="Mayor calificacion?",message="error-materia: Programacion \nIngrese una calificacion del 0 al 100")
+        return
+    
+    try:
+        V_conta=int(Conta.get())
+    except ValueError:
+        messagebox.showerror(title="Error de datos",message="Los datos ingresados en Contabilidad deben ser numeros")
+        return
+    if V_conta>=0 and V_conta<=100:
+        pass
+    else:
+        messagebox.showinfo(title="Mayor calificacion?",message="error-materia: Contabilidad \nIngrese una calificacion del 0 al 100")
+        return
+    
+    try:
+        V_quimi=int(Quimica.get())
+    except ValueError:
+        messagebox.showerror(title="Error de datos",message="Los datos ingresados en Quimica deben ser numeros")
+        return
+    if V_quimi>=0 and V_quimi<=100:
+        pass
+    else:
+        messagebox.showinfo(title="Mayor calificacion?",message="error-materia: Quimica \nIngrese una calificacion del 0 al 100")
+        return
+
+
+    try:
+        V_alge=int(Algebra.get())
+    except ValueError:
+        messagebox.showerror(title="Error de datos",message="Los datos ingresados en Algebra deben ser numeros")
+        return
+    if V_alge>=0 and V_alge<=100:
+        pass
+    else:
+        messagebox.showinfo(title="Mayor calificacion?",message="error-materia: Algebra \nIngrese una calificacion del 0 al 100")
+        return  
+
+    try:
+        V_calu=int(Calculo.get())
+    except ValueError:
+        messagebox.showerror(title="Error de datos",message="Los datos ingresados en Calculo deben ser numeros")
+        return
+    if V_calu>=0 and V_calu<=100:
+        pass
+    else:
+        messagebox.showinfo(title="Mayor calificacion?",message="error-materia: Calculo \nIngrese una calificacion del 0 al 100")
+        return  
+
+    try:
+        V_probabilidad=int(Probabilidad.get())
+    except ValueError:
+        messagebox.showerror(title="Error de datos",message="Los datos ingresados en Probabilidad deben ser numeros")
+        return
+    if V_probabilidad>=0 and V_probabilidad<=100:
+        pass
+    else:
+        messagebox.showinfo(title="Mayor calificacion?",message="error-materia: Probabilidad \nIngrese una calificacion del 0 al 100")
+        return  
+
+    try:
+        V_ingles=int(Ingles.get())
+    except ValueError:
+        messagebox.showerror(title="Error de datos",message="Los datos ingresados en Inglés deben ser numeros")
+        return
+    if V_ingles>=0 and V_ingles<=100:
+        pass
+    else:
+        messagebox.showinfo(title="Mayor calificacion?",message="error-materia: Inglés \nIngrese una calificacion del 0 al 100")
+        return
+    
+    confirmar = messagebox.askyesno("Confirmar Actualización", "¿Está seguro de querer actualizar sus calificaciones?")
+    
+    if confirmar:
+        
+
+        alumno=alumno_s
+        a=bd.cursor()
+        proba=(V_alge+V_calu+V_conta+V_ingles+V_probabilidad+V_programacion+V_quimi)/7
+        valores=(V_programacion, V_conta, V_quimi, V_alge, V_calu, V_probabilidad, V_ingles, proba, V_unidad, alumno)
+        sql = "UPDATE `materias` SET `programacion` = %s, `contabilidad` = %s, `quimica` = %s, `algebra` = %s, `calculo` = %s, `probabilidad` = %s, `ingles` = %s, `promedio` = %s WHERE `materias`.`unidad` = %s AND `materias`.`alumno` = %s"
+        a.execute(sql,valores)
+        bd.commit()
+        a.close()
+        ventana.withdraw()
+        messagebox.showinfo(title="Datos",message="Datos actualizados, porfavor inicie sesion nuevamente")
+        inicio()
+        
+
+class datos(CTkFrame):
+    def __init__(self, master: None):
+        super().__init__(master, width=725, height=150)
+        self.master=master
+        self.pack()
+        self.ventana()
+        
+    def ventana(self):
+        ven = CTkFrame(self)
+        ven.place(x=0, y=0)
+        tabla = ttk.Treeview(ven)
+        tabla["columns"] = ('Unidad', 'Programacion orientada a objetos', 'Contabilidad financiera', 'Quimica', 'Algebra lineal', 'Calculo integral', 'Probabilidad y estadistica', 'Ingles', 'Promedio')
+        tabla.column('#0', width=0)
+        tabla.column('Unidad', width=100)
+        tabla.column('Programacion orientada a objetos', width=100)
+        tabla.column('Contabilidad financiera', width=100)
+        tabla.column('Quimica', width=100)
+        tabla.column('Algebra lineal', width=100)
+        tabla.column('Calculo integral', width=100)
+        tabla.column('Probabilidad y estadistica', width=100)
+        tabla.column('Ingles', width=100)
+        tabla.column('Promedio', width=100)
+        
+        tabla.heading('#0', text='')
+        tabla.heading('Unidad', text='Unidad')
+        tabla.heading('Programacion orientada a objetos', text='Programacion')
+        tabla.heading('Contabilidad financiera', text='Contabilidad')
+        tabla.heading('Quimica', text='Quimica')
+        tabla.heading('Algebra lineal', text='Algebra')
+        tabla.heading('Calculo integral', text='Calculo')
+        tabla.heading('Probabilidad y estadistica', text='probabilidad')
+        tabla.heading('Ingles', text='Ingles')
+        tabla.heading('Promedio', text='Promedio')
+        
+        seleccionar = "select * from materias where alumno = %s and contraseña = %s"
+        ta = bd.cursor()
+        ta.execute(seleccionar, (alumno_s, contraseña_s,))
+        resultado = ta.fetchall()
+
+        for materias in resultado:
+            if not isinstance(materias, tuple):
+                continue
+            identificador = f"{materias[0]}_{materias[1]}"
+            tabla.insert(parent='', index='end', iid=identificador, values=(materias[0], materias[3], materias[4], materias[5], materias[6], materias[7], materias[8], materias[9], materias[10]))
+        ta.close()
+        
+        tabla.pack()
+
+def llamar():
+    def cerrar_sesion():
+        conf=messagebox.askyesno(title="Confirmar",message="Seguro que desea cerrar sesión?")
+        if conf:
+            ventana.withdraw()
+            paz()
+        else:
+            return
+    global ventana
+    global Unidad
+    global Programacion
+    global Conta
+    global Quimica
+    global Algebra
+    global Calculo
+    global Probabilidad
+    global Ingles
+
+    ventana = CTk()
+    ventana.geometry("1250x245")
+
+
+    label1 = CTkLabel(ventana, text="Unidad:")
+    label1.place(y=0, x=750)
+
+    Unidad = CTkEntry(ventana)
+    Unidad.place(y=0, x=850)
+
+    label2 = CTkLabel(ventana, text="Programacion:")
+    label2.place(y=30, x=750)
+
+    Programacion = CTkEntry(ventana)
+    Programacion.place(y=30, x=850)
+
+    label3 = CTkLabel(ventana, text="Contabilidad:")
+    label3.place(y=60, x=750)
+
+    Conta = CTkEntry(ventana)
+    Conta.place(y=60, x=850)
+
+    label4 = CTkLabel(ventana, text="Quimica:")
+    label4.place(y=90, x=750)
+
+    Quimica = CTkEntry(ventana)
+    Quimica.place(y=90, x=850)
+
+    label5 = CTkLabel(ventana, text="Algebra:")
+    label5.place(y=0, x=1000)
+
+    Algebra = CTkEntry(ventana)
+    Algebra.place(y=0, x=1100)
+
+    label6 = CTkLabel(ventana, text="Calculo:")
+    label6.place(y=30, x=1000)
+
+    Calculo = CTkEntry(ventana)
+    Calculo.place(y=30, x=1100)
+
+    label7 = CTkLabel(ventana, text="Probabilidad:")
+    label7.place(y=60, x=1000)
+
+    Probabilidad = CTkEntry(ventana)
+    Probabilidad.place(y=60, x=1100)
+
+    label8 = CTkLabel(ventana, text="Inglés:")
+    label8.place(y=90, x=1000)
+
+    Ingles = CTkEntry(ventana)
+    Ingles.place(y=90, x=1100)
+
+    app = datos(ventana)
+    app.place(x=10, y=10)
+
+    boton1 = CTkButton(ventana, text="Actualizar",command=actualizar, width=10)
+    boton1.place(x=200, y=200)
+
+    boton2 = CTkButton(ventana, text="Salir", width=10,command=cerrar_sesion)
+    boton2.place(x=400, y=200)
+
+    ventana.mainloop()
+    print(alumno_s,contraseña_s)
+
+def inicio():
+  
+  def iniciar():
+    
+    global alumno_s
+    global contraseña_s
+    alumno_s = alumno.get()
+    contraseña_s = contraseña.get()
+    identificar = "SELECT * FROM materias WHERE alumno = %s"
+    
+    cursor = bd.cursor()
+    cursor.execute(identificar, (alumno_s,))
+    resultado = cursor.fetchone()
+    
+    if alumno_s!="" or contraseña_s!="":
+      
+        if resultado[2] == contraseña_s:
+            
+            alumno_global=alumno.get()
+            contraseña_global=contraseña.get()
+            
+            cursor.close()
+            inicio_sesion.withdraw()
+            llamar()
+            
+        else:
+          
+            messagebox.showerror(title="Contraseña incorrecta", message="La contraseña es incorrecta")
+            
+    else:
+      
+      messagebox.showerror(title="Datos incompletos", message="No pueden quedar campos vacios")
+        
+  def regreso():
+    
+    inicio_sesion.withdraw()
+    paz()
+
+  ventana.withdraw()
+
+
+  inicio_sesion=CTk()
+  inicio_sesion.title("Inicio de sesion de alumno")
+  inicio_sesion.geometry("300x200")
+  inicio_sesion.resizable(0,0)
+  
+  global alumno
+  global contraseña
+  
+  text1=CTkLabel(inicio_sesion,text="Ingrese su nombre")
+  text1.pack()
+    
+  alumno=CTkEntry(inicio_sesion)
+  alumno.pack()
+  
+  text2=CTkLabel(inicio_sesion,text="Ingrese su contraseña")
+  text2.pack()
+  
+  contraseña=CTkEntry(inicio_sesion,show="*")
+  contraseña.pack() 
+
+  boton=CTkButton(inicio_sesion,text="Continuar",command=iniciar)
+  boton.pack(pady="1")
+  
+  boton2=CTkButton(inicio_sesion,text="Regresar",command=regreso)
+  boton2.pack(pady="10")
+  
+  inicio_sesion.mainloop()
+
+
+def registro():
+  
+    def registrar_a():
+        
+        if not alu.get().isalpha():
+            messagebox.showerror(title="Error de datos",message="El nombre del alumnno no puede contener carcteres especiales o numeros")
+            return
+        if alu.get()=="" or con.get()=="":
+      
+            messagebox.showerror(title="Datos incompletos", message="No pueden quedar campos vacios")
+     
+        else:
+            
+            registrar=bd.cursor()
+            registrar.execute("SELECT * FROM materias WHERE alumno = %s AND contraseña = %s", (alu.get(), con.get()))
+            if registrar.fetchall():
+                messagebox.showerror(title="Alumno duplicado", message="El alumno que usted desea registrar ya esta registrado")
+                return
+            regist="insert into materias (alumno,contraseña,unidad) values(%s,%s,%s)"
+            for x in range(1,5):
+                rar=(str(alu.get()),str(con.get()), x)
+                registrar.execute(regist,rar)
+            
+            messagebox.showinfo(title="Estatus",message="Alumno registrado")
+            
+            bd.commit()
+            
+            ventana74.withdraw()
+            paz()
+        
+    def regresar_a():
+        ventana74.withdraw()
+        paz()
+        
+    global alu
+    
+    ventana.withdraw()
+  
+    ventana74=CTk()
+    ventana74.title("Registro de alumno")
+    ventana74.geometry("350x200")
+    ventana74.resizable(0,0)
+  
+    text1=CTkLabel(ventana74,text="Ingrese su nombre")
+    text1.pack()
+  
+    alu=CTkEntry(ventana74)
+    alu.pack()
+  
+    text2=CTkLabel(ventana74,text="Ingrese su contraseña")
+    text2.pack()
+  
+    con=CTkEntry(ventana74)
+    con.pack()
+  
+    boton=CTkButton(ventana74,text="Continuar",command=registrar_a)
+    boton.pack(pady="1")
+  
+    boton6=CTkButton(ventana74,text="Regresar",command=regresar_a)
+    boton6.pack(pady="10")
+    ventana74.mainloop()
+
+def paz():
+  
+  global ventana
+  
+  ventana=CTk()
+  ventana.title("Sistema de calificaciones")
+
+  boton=CTkButton(ventana,text="Iniciar sesion",command=inicio)
+  boton.pack(pady="30")
+
+  boton2=CTkButton(ventana,text="Registrar usuario",command=registro)
+  boton2.pack(pady="40")
+  
+  ventana.resizable(0,0)
+  ventana.geometry("250x225")
+  ventana.mainloop()
+
+
+if __name__== "__main__":
+    paz()

@@ -355,9 +355,11 @@ def llamar():
     ventana.mainloop()
 
 def inicio():
+  if ventana_abierta:
+      return
   customtkinter.set_appearance_mode("dark")
   def iniciar():
-    
+
     global alumno_s
     global contraseña_s
     alumno_s = alumno.get()
@@ -367,6 +369,8 @@ def inicio():
     cursor = bd.cursor()
     cursor.execute(identificar, (alumno_s,))
     resultado = cursor.fetchone()
+    if ventana_abierta:
+        return
     
     if alumno_s!="" or contraseña_s!="":
         if resultado is not None:
@@ -376,7 +380,7 @@ def inicio():
             alumno.delete(0,END)
             contraseña.delete(0,END)
             return
-        if resultado[2] == contraseña_s:
+        if resultado[2] == contraseña_s and resultado[1] == alumno_s:
             
             cursor.close()
             inicio_sesion.withdraw()
@@ -392,7 +396,8 @@ def inicio():
       mostrar_ventana_dialogo("Datos incompletos", "No pueden quedar campos vacios")
         
   def regreso():
-    
+    if ventana_abierta:
+        return
     inicio_sesion.withdraw()
     paz()
 
@@ -430,20 +435,21 @@ def inicio():
 
   text0_1=CTkLabel(inicio_sesion,text="",bg_color="PeachPuff3")
   text0_1.pack(pady="15")
-
+  
   boton=CTkButton(inicio_sesion,text="Continuar",command=iniciar,bg_color="PeachPuff3")
   boton.pack(pady="1")
   
   boton2=CTkButton(inicio_sesion,text="Regresar",command=regreso,bg_color="PeachPuff3")
   boton2.pack(pady="10")
-  
+
   inicio_sesion.mainloop()
 
 
 def registro():
     customtkinter.set_appearance_mode("dark")
     def registrar_a():
-        
+        if ventana_abierta:
+            return
         if not alu.get().isalpha():
             mostrar_ventana_dialogo("Error de datos","El nombre del alumnno no puede contener carcteres especiales o numeros")
             alu.delete(0,END)
@@ -481,6 +487,8 @@ def registro():
             paz()
         
     def regresar_a():
+        if ventana_abierta:
+            return
         ventana74.withdraw()
         paz()
         
@@ -519,10 +527,12 @@ def registro():
     
     boton=CTkButton(ventana74,text="Continuar",command=registrar_a,bg_color="PeachPuff3")
     boton.pack(pady="25")
-  
+    
     boton6=CTkButton(ventana74,text="Regresar",command=regresar_a,bg_color="PeachPuff3")
     boton6.pack(pady="10")
+    
     ventana74.mainloop()
+
 
 def paz():
   customtkinter.set_appearance_mode("dark")

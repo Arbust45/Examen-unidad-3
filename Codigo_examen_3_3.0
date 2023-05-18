@@ -31,17 +31,36 @@ def mostrar_ventana_pregunta(titulo, mensaje):
     global ventana_abierta
     if ventana_abierta==False:
         ventana_abierta = True
-        messagebox.askyesno(titulo, mensaje)
+        siono=messagebox.askyesno(titulo, mensaje)
         ventana_abierta=False
+        if siono:
+            return True
     else:
         return
         
-
+def limitar_entry_contra(entrada, limit):
+    def limitar(event):
+        texto = entrada.get()
+        if len(texto)>=limit and not event.keysym=='BackSpace':
+            return "break"
+    entrada.bind("<Key>", limitar)
+    
 def limitar_entry(entrada, limit):
     def limitar(event):
         texto = entrada.get()
-        if len(texto) > limit:
-            entrada.delete(limit, END)
+        if len(texto)>=limit and not event.keysym=='BackSpace':
+            return "break"
+        if not event.char.isalpha() and not event.keysym=='BackSpace':
+            return "break"
+    entrada.bind("<Key>", limitar)
+
+def limitar_entry_num(entrada, limit):
+    def limitar(event):
+        texto = entrada.get()
+        if len(texto)>=limit and not event.keysym=='BackSpace':
+            return "break"
+        if not event.char.isdigit() and not event.keysym=='BackSpace':
+            return "break"
     entrada.bind("<Key>", limitar)
     
 def eliminar():
@@ -266,56 +285,56 @@ def llamar():
 
     Unidad = CTkEntry(ventana)
     Unidad.place(y=0, x=850)
-    limitar_entry(Unidad,0)
+    limitar_entry_num(Unidad,1)
     
     label2 = CTkLabel(ventana, text="Programacion:")
     label2.place(y=30, x=750)
 
     Programacion = CTkEntry(ventana)
     Programacion.place(y=30, x=850)
-    limitar_entry(Programacion,2)
+    limitar_entry_num(Programacion,3)
     
     label3 = CTkLabel(ventana, text="Contabilidad:")
     label3.place(y=60, x=750)
 
     Conta = CTkEntry(ventana)
     Conta.place(y=60, x=850)
-    limitar_entry(Conta,2)
+    limitar_entry_num(Conta,3)
     
     label4 = CTkLabel(ventana, text="Quimica:")
     label4.place(y=90, x=750)
 
     Quimica = CTkEntry(ventana)
     Quimica.place(y=90, x=850)
-    limitar_entry(Quimica,2)
+    limitar_entry_num(Quimica,3)
     
     label5 = CTkLabel(ventana, text="Algebra:")
     label5.place(y=0, x=1000)
 
     Algebra = CTkEntry(ventana)
     Algebra.place(y=0, x=1100)
-    limitar_entry(Algebra,2)
+    limitar_entry_num(Algebra,3)
     
     label6 = CTkLabel(ventana, text="Calculo:")
     label6.place(y=30, x=1000)
 
     Calculo = CTkEntry(ventana)
     Calculo.place(y=30, x=1100)
-    limitar_entry(Calculo,2)
+    limitar_entry_num(Calculo,3)
     
     label7 = CTkLabel(ventana, text="Probabilidad:")
     label7.place(y=60, x=1000)
 
     Probabilidad = CTkEntry(ventana)
     Probabilidad.place(y=60, x=1100)
-    limitar_entry(Probabilidad,2)
+    limitar_entry_num(Probabilidad,3)
     
     label8 = CTkLabel(ventana, text="Inglés:")
     label8.place(y=90, x=1000)
 
     Ingles = CTkEntry(ventana)
     Ingles.place(y=90, x=1100)
-    limitar_entry(Ingles,2)
+    limitar_entry_num(Ingles,3)
     
     app = datos(ventana)
     app.place(x=10, y=10)
@@ -392,14 +411,14 @@ def inicio():
     
   alumno=CTkEntry(inicio_sesion)
   alumno.pack()
-  limitar_entry(alumno,27)
+  limitar_entry(alumno,28)
   
   text2=CTkLabel(inicio_sesion,text="Ingrese su contraseña")
   text2.pack()
   
   contraseña=CTkEntry(inicio_sesion,show="*")
   contraseña.pack()
-  limitar_entry(contraseña,29)
+  limitar_entry_contra(contraseña,30)
 
   boton=CTkButton(inicio_sesion,text="Continuar",command=iniciar)
   boton.pack(pady="1")
@@ -468,14 +487,14 @@ def registro():
     
     alu=CTkEntry(ventana74)
     alu.pack()
-    limitar_entry(alu,27)
+    limitar_entry(alu,28)
   
     text2=CTkLabel(ventana74,text="Ingrese su contraseña")
     text2.pack()
 
     con=CTkEntry(ventana74)
     con.pack()
-    limitar_entry(con,29)
+    limitar_entry_contra(con,30)
   
     boton=CTkButton(ventana74,text="Continuar",command=registrar_a)
     boton.pack(pady="1")

@@ -195,7 +195,7 @@ def actualizar():
         bd.commit()
         a.close()
         ventana.withdraw()
-        mostrar_ventana_pregunta(title="Datos",message="Datos actualizados, porfavor inicie sesion nuevamente")
+        mostrar_ventana_dialogo("Datos","Datos actualizados, porfavor inicie sesion nuevamente")
         inicio()
         
 
@@ -479,7 +479,7 @@ def registro():
   
     ventana74=CTk()
     ventana74.title("Registro de alumno")
-    ventana74.geometry("350x200")
+    ventana74.geometry("400x400")
     ventana74.resizable(0,0)
   
     text1=CTkLabel(ventana74,text="Ingrese su nombre")
@@ -497,7 +497,7 @@ def registro():
     limitar_entry_contra(con,30)
   
     boton=CTkButton(ventana74,text="Continuar",command=registrar_a)
-    boton.pack(pady="1")
+    boton.pack(pady="25")
   
     boton6=CTkButton(ventana74,text="Regresar",command=regresar_a)
     boton6.pack(pady="10")
@@ -512,13 +512,13 @@ def paz():
   ventana.title("Sistema de calificaciones")
 
   boton=CTkButton(ventana,text="Iniciar sesion",command=inicio)
-  boton.pack(pady="30")
+  boton.pack(pady="100")
 
   boton2=CTkButton(ventana,text="Registrar usuario",command=registro)
-  boton2.pack(pady="40")
+  boton2.pack(pady="100")
   
   ventana.resizable(0,0)
-  ventana.geometry("250x225")
+  ventana.geometry("400x400")
   ventana.mainloop()
 
 

@@ -1,6 +1,9 @@
 import customtkinter
+import re
+from tkinter import *
 import mysql.connector
 from tkinter import messagebox
+from tkinter import StringVar
 from tkinter import ttk
 customtkinter.set_default_color_theme("green")
 from customtkinter import CTk, CTkFrame, CTkLabel, CTkButton, CTkEntry
@@ -13,9 +16,36 @@ bd = mysql.connector.connect(
     database="calificaciones",
     buffered=True
 )
+ventana_abierta = False
 
+def mostrar_ventana_dialogo(titulo, mensaje):
+    global ventana_abierta
+    if ventana_abierta==False:
+        ventana_abierta = True
+        messagebox.showinfo(titulo, mensaje)
+        ventana_abierta = False
+    else:
+        return
+
+def mostrar_ventana_pregunta(titulo, mensaje):
+    global ventana_abierta
+    if ventana_abierta==False:
+        ventana_abierta = True
+        messagebox.askyesno(titulo, mensaje)
+        ventana_abierta=False
+    else:
+        return
+        
+
+def limitar_entry(entrada, limit):
+    def limitar(event):
+        texto = entrada.get()
+        if len(texto) > limit:
+            entrada.delete(limit, END)
+    entrada.bind("<Key>", limitar)
+    
 def eliminar():
-    confir=messagebox.askyesno(title="Eliminar alumno",message="¿Seguro que desea eliminar su cuenta?")
+    confir=mostrar_ventana_pregunta("Eliminar alumno","¿Seguro que desea eliminar su cuenta?")
     if confir:
         cursor=bd.cursor()
         for x in range(1,5):
@@ -32,99 +62,107 @@ def eliminar():
 def actualizar():
     
     if not Unidad.get() or not Programacion.get() or not Conta.get() or not Quimica.get() or not Algebra.get() or not Calculo.get() or not Probabilidad.get() or not Ingles.get():
-        messagebox.showwarning(title="Vacio?",message="Los campos no pueden estar vacios")
+        mostrar_ventana_dialogo("Vacio?","Los campos no pueden estar vacios")
         return
 
     try:
         V_unidad=int(Unidad.get())
     except ValueError as error:
-        messagebox.showerror(title="Error de datos",message="Los datos ingresados en unidad deben de ser numeros\n\nError: "+str(error))
+        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en unidad deben de ser numeros\n\nError: "+str(error))
+        Unidad.delete(0,END)
         return
     if V_unidad>=1 and V_unidad<=5:
             pass
     else:
-        messagebox.showinfo(title="Unidad no valida",message="La unidad "+str(V_unidad)+" no es una unidad validad\nsolo se aceptan unidades del 1 al 4")
+        mostrar_ventana_dialogo("Unidad no valida","La unidad "+str(V_unidad)+" no es una unidad validad\nsolo se aceptan unidades del 1 al 4")
         return
     
     try:
         V_programacion=int(Programacion.get())
     except ValueError as error:
-        messagebox.showerror(title="Error de datos",message="Los datos ingresados en programacion deben ser numeros")
+        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en programacion deben ser numeros")
+        Programacion.delete(0,END)
         return
     if V_programacion>=0 and V_programacion<=100:
         pass
     else:
-        messagebox.showinfo(title="Mayor calificacion?",message="error-materia: Programacion \nIngrese una calificacion del 0 al 100")
+        mostrar_ventana_dialogo("¿Mayor calificacion?","error-materia: Programacion \nIngrese una calificacion del 0 al 100")
         return
     
     try:
         V_conta=int(Conta.get())
     except ValueError:
-        messagebox.showerror(title="Error de datos",message="Los datos ingresados en Contabilidad deben ser numeros")
+        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en Contabilidad deben ser numeros")
+        Conta.delete(0,END)
         return
     if V_conta>=0 and V_conta<=100:
         pass
     else:
-        messagebox.showinfo(title="Mayor calificacion?",message="error-materia: Contabilidad \nIngrese una calificacion del 0 al 100")
+        mostrar_ventana_dialogo("¿Mayor calificacion?","error-materia: Contabilidad \nIngrese una calificacion del 0 al 100")
         return
     
     try:
         V_quimi=int(Quimica.get())
     except ValueError:
-        messagebox.showerror(title="Error de datos",message="Los datos ingresados en Quimica deben ser numeros")
+        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en Quimica deben ser numeros")
+        Quimica.delete(0,END)
         return
     if V_quimi>=0 and V_quimi<=100:
         pass
     else:
-        messagebox.showinfo(title="Mayor calificacion?",message="error-materia: Quimica \nIngrese una calificacion del 0 al 100")
+        mostrar_ventana_dialogo("¿Mayor calificacion?","error-materia: Quimica \nIngrese una calificacion del 0 al 100")
         return
 
 
     try:
         V_alge=int(Algebra.get())
     except ValueError:
-        messagebox.showerror(title="Error de datos",message="Los datos ingresados en Algebra deben ser numeros")
+        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en Algebra deben ser numeros")
+        Algebra.delete(0,END)
         return
     if V_alge>=0 and V_alge<=100:
         pass
     else:
-        messagebox.showinfo(title="Mayor calificacion?",message="error-materia: Algebra \nIngrese una calificacion del 0 al 100")
+        mostrar_ventana_dialogo("¿Mayor calificacion?","error-materia: Algebra \nIngrese una calificacion del 0 al 100")
         return  
 
     try:
         V_calu=int(Calculo.get())
     except ValueError:
-        messagebox.showerror(title="Error de datos",message="Los datos ingresados en Calculo deben ser numeros")
+        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en Calculo deben ser numeros")
+        Calculo.delete(0,END)
         return
     if V_calu>=0 and V_calu<=100:
         pass
     else:
-        messagebox.showinfo(title="Mayor calificacion?",message="error-materia: Calculo \nIngrese una calificacion del 0 al 100")
+        mostrar_ventana_dialogo("¿Mayor calificacion?","error-materia: Calculo \nIngrese una calificacion del 0 al 100")
         return  
 
     try:
         V_probabilidad=int(Probabilidad.get())
     except ValueError:
-        messagebox.showerror(title="Error de datos",message="Los datos ingresados en Probabilidad deben ser numeros")
+        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en Probabilidad deben ser numeros")
+        Probabilidad.delete(0,END)
         return
     if V_probabilidad>=0 and V_probabilidad<=100:
         pass
     else:
-        messagebox.showinfo(title="Mayor calificacion?",message="error-materia: Probabilidad \nIngrese una calificacion del 0 al 100")
+        mostrar_ventana_dialogo("¿Mayor calificacion?","error-materia: Probabilidad \nIngrese una calificacion del 0 al 100")
         return  
 
     try:
         V_ingles=int(Ingles.get())
     except ValueError:
-        messagebox.showerror(title="Error de datos",message="Los datos ingresados en Inglés deben ser numeros")
+        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en Inglés deben ser numeros")
+        Ingles.delete(0,END)
         return
     if V_ingles>=0 and V_ingles<=100:
         pass
     else:
-        messagebox.showinfo(title="Mayor calificacion?",message="error-materia: Inglés \nIngrese una calificacion del 0 al 100")
+        mostrar_ventana_dialogo("¿Mayor calificacion?","error-materia: Inglés \nIngrese una calificacion del 0 al 100")
         return
     
-    confirmar = messagebox.askyesno("Confirmar Actualización", "¿Está seguro de querer actualizar sus calificaciones?")
+    confirmar = mostrar_ventana_pregunta("Confirmar Actualización", "¿Está seguro de querer actualizar sus calificaciones?")
     
     if confirmar:
         
@@ -138,7 +176,7 @@ def actualizar():
         bd.commit()
         a.close()
         ventana.withdraw()
-        messagebox.showinfo(title="Datos",message="Datos actualizados, porfavor inicie sesion nuevamente")
+        mostrar_ventana_pregunta(title="Datos",message="Datos actualizados, porfavor inicie sesion nuevamente")
         inicio()
         
 
@@ -191,13 +229,23 @@ class datos(CTkFrame):
         tabla.pack()
 
 def llamar():
+    customtkinter.set_appearance_mode("light")
     def cerrar_sesion():
-        conf=messagebox.askyesno(title="Confirmar",message="Seguro que desea cerrar sesión?")
+        conf=mostrar_ventana_pregunta("Confirmar","Seguro que desea cerrar sesión?")
         if conf:
             ventana.withdraw()
             paz()
         else:
             return
+    def promedio_final():
+        prom=bd.cursor()
+        y=0
+        for x in range(1,5):
+            prom.execute("SELECT `promedio` FROM `materias` WHERE unidad = %s AND alumno = %s AND contraseña = %s", (x, alumno_s, contraseña_s))
+            y = int(prom.fetchone()[0]) + y
+        promfinal=y/4
+        prom.close()
+        mostrar_ventana_dialogo("Promedio final","Su promedio final del semestre es "+str(promfinal))
     global ventana
     global Unidad
     global Programacion
@@ -210,56 +258,65 @@ def llamar():
 
     ventana = CTk()
     ventana.geometry("1250x245")
-
+    ventana.resizable(0,0)
+    ventana.title=("Datos de usuario")
 
     label1 = CTkLabel(ventana, text="Unidad:")
     label1.place(y=0, x=750)
 
     Unidad = CTkEntry(ventana)
     Unidad.place(y=0, x=850)
-
+    limitar_entry(Unidad,0)
+    
     label2 = CTkLabel(ventana, text="Programacion:")
     label2.place(y=30, x=750)
 
     Programacion = CTkEntry(ventana)
     Programacion.place(y=30, x=850)
-
+    limitar_entry(Programacion,2)
+    
     label3 = CTkLabel(ventana, text="Contabilidad:")
     label3.place(y=60, x=750)
 
     Conta = CTkEntry(ventana)
     Conta.place(y=60, x=850)
-
+    limitar_entry(Conta,2)
+    
     label4 = CTkLabel(ventana, text="Quimica:")
     label4.place(y=90, x=750)
 
     Quimica = CTkEntry(ventana)
     Quimica.place(y=90, x=850)
-
+    limitar_entry(Quimica,2)
+    
     label5 = CTkLabel(ventana, text="Algebra:")
     label5.place(y=0, x=1000)
 
     Algebra = CTkEntry(ventana)
     Algebra.place(y=0, x=1100)
-
+    limitar_entry(Algebra,2)
+    
     label6 = CTkLabel(ventana, text="Calculo:")
     label6.place(y=30, x=1000)
 
     Calculo = CTkEntry(ventana)
     Calculo.place(y=30, x=1100)
-
+    limitar_entry(Calculo,2)
+    
     label7 = CTkLabel(ventana, text="Probabilidad:")
     label7.place(y=60, x=1000)
 
     Probabilidad = CTkEntry(ventana)
     Probabilidad.place(y=60, x=1100)
-
+    limitar_entry(Probabilidad,2)
+    
     label8 = CTkLabel(ventana, text="Inglés:")
     label8.place(y=90, x=1000)
 
     Ingles = CTkEntry(ventana)
     Ingles.place(y=90, x=1100)
-
+    limitar_entry(Ingles,2)
+    
     app = datos(ventana)
     app.place(x=10, y=10)
 
@@ -267,15 +324,18 @@ def llamar():
     boton1.place(x=200, y=200)
 
     boton2 = CTkButton(ventana, text="Salir", width=10,command=cerrar_sesion)
-    boton2.place(x=600, y=200)
+    boton2.place(x=800, y=200)
     
     boton3 = CTkButton(ventana,text="Eliminar",command=eliminar,width=10)
-    boton3.place(x=400,y=200)
+    boton3.place(x=600,y=200)
+    
+    boton4 = CTkButton(ventana,text="Promedio final",command=promedio_final, width=10)
+    boton4.place(x=400,y=200)
+    
     ventana.mainloop()
-    print(alumno_s,contraseña_s)
 
 def inicio():
-  
+  customtkinter.set_appearance_mode("dark")
   def iniciar():
     
     global alumno_s
@@ -292,7 +352,9 @@ def inicio():
         if resultado is not None:
             pass
         else:
-            messagebox.showinfo(title="¿Alumno?",message="El alumno al que intenta acceder no esta registrado o fue eliminado")
+            mostrar_ventana_dialogo("¿Alumno?","El alumno al que intenta acceder no esta registrado o fue eliminado")
+            alumno.delete(0,END)
+            contraseña.delete(0,END)
             return
         if resultado[2] == contraseña_s:
             
@@ -301,12 +363,13 @@ def inicio():
             llamar()
             
         else:
-            messagebox.showerror(title="Contraseña incorrecta", message="La contraseña es incorrecta")
+            mostrar_ventana_dialogo("Contraseña incorrecta","La contraseña es incorrecta")
+            contraseña.delete(0,END)
             return
             
     else:
       
-      messagebox.showerror(title="Datos incompletos", message="No pueden quedar campos vacios")
+      mostrar_ventana_dialogo("Datos incompletos", "No pueden quedar campos vacios")
         
   def regreso():
     
@@ -329,12 +392,14 @@ def inicio():
     
   alumno=CTkEntry(inicio_sesion)
   alumno.pack()
+  limitar_entry(alumno,27)
   
   text2=CTkLabel(inicio_sesion,text="Ingrese su contraseña")
   text2.pack()
   
   contraseña=CTkEntry(inicio_sesion,show="*")
-  contraseña.pack() 
+  contraseña.pack()
+  limitar_entry(contraseña,29)
 
   boton=CTkButton(inicio_sesion,text="Continuar",command=iniciar)
   boton.pack(pady="1")
@@ -346,29 +411,39 @@ def inicio():
 
 
 def registro():
-  
+    customtkinter.set_appearance_mode("dark")
     def registrar_a():
         
         if not alu.get().isalpha():
-            messagebox.showerror(title="Error de datos",message="El nombre del alumnno no puede contener carcteres especiales o numeros")
+            mostrar_ventana_dialogo("Error de datos","El nombre del alumnno no puede contener carcteres especiales o numeros")
+            alu.delete(0,END)
+            con.delete(0,END)
             return
         if alu.get()=="" or con.get()=="":
       
-            messagebox.showerror(title="Datos incompletos", message="No pueden quedar campos vacios")
+            mostrar_ventana_dialogo("Datos incompletos", "No pueden quedar campos vacios")
      
         else:
-            
+            if alu.get()=="Kelly":
+                mostrar_ventana_dialogo("ALERTA KELLY","Eres Kelly fuera de aqui")
+                alu.delete(0,END)
+                con.delete(0,END)
+                return
             registrar=bd.cursor()
             registrar.execute("SELECT * FROM materias WHERE alumno = %s AND contraseña = %s", (alu.get(), con.get()))
-            if registrar.fetchall():
-                messagebox.showerror(title="Alumno duplicado", message="El alumno que usted desea registrar ya esta registrado")
+            if not registrar.fetchall():
+                pass
+            else:
+                mostrar_ventana_dialogo("Alumno duplicado","El alumno que usted desea registrar ya esta registrado")
+                alu.delete(0,END)
+                con.delete(0,END)
                 return
             regist="insert into materias (alumno,contraseña,unidad) values(%s,%s,%s)"
             for x in range(1,5):
                 rar=(str(alu.get()),str(con.get()), x)
                 registrar.execute(regist,rar)
             
-            messagebox.showinfo(title="Estatus",message="Alumno registrado")
+            mostrar_ventana_dialogo("Estatus","Alumno registrado")
             
             bd.commit()
             
@@ -390,15 +465,17 @@ def registro():
   
     text1=CTkLabel(ventana74,text="Ingrese su nombre")
     text1.pack()
-  
+    
     alu=CTkEntry(ventana74)
     alu.pack()
+    limitar_entry(alu,27)
   
     text2=CTkLabel(ventana74,text="Ingrese su contraseña")
     text2.pack()
-  
+
     con=CTkEntry(ventana74)
     con.pack()
+    limitar_entry(con,29)
   
     boton=CTkButton(ventana74,text="Continuar",command=registrar_a)
     boton.pack(pady="1")
@@ -408,6 +485,7 @@ def registro():
     ventana74.mainloop()
 
 def paz():
+  customtkinter.set_appearance_mode("dark")
   
   global ventana
   

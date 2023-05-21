@@ -41,16 +41,23 @@ def mostrar_ventana_pregunta(titulo, mensaje):
 def limitar_entry_contra(entrada, limit):
     def limitar(event):
         texto = entrada.get()
-        if len(texto)>=limit and not event.keysym=='BackSpace':
+        if len(texto)>=limit and event.keysym != 'BackSpace':
+            return "break"
+        if event.char.isalpha():
             return "break"
     entrada.bind("<Key>", limitar)
     
 def limitar_entry(entrada, limit):
     def limitar(event):
         texto = entrada.get()
-        if len(texto)>=limit and not event.keysym=='BackSpace':
+        if len(texto) >= limit and event.keysym != 'BackSpace':
             return "break"
-        if not event.char.isalpha() and not event.keysym=='BackSpace':
+        if event.char.isalpha():
+            if event.state==0:
+                nueva_tecla=event.char.upper()
+            else:
+                nueva_tecla=event.char.lower()
+            entrada.insert('end', nueva_tecla)
             return "break"
     entrada.bind("<Key>", limitar)
 
@@ -465,14 +472,15 @@ def registro():
                 alu.delete(0,END)
                 con.delete(0,END)
                 return
-            registrar=bd.cursor()
-            registrar.execute("SELECT * FROM materias WHERE alumno = %s AND contraseña = %s", (alu.get(), con.get()))
-            if not registrar.fetchall():
+            registrar = bd.cursor()
+            registrar.execute("SELECT * FROM materias WHERE alumno = %s", (str(alu.get()),))
+            record = registrar.fetchall()
+            if any(row[1] != alu.get() for row in record):
                 pass
             else:
-                mostrar_ventana_dialogo("Alumno duplicado","El alumno que usted desea registrar ya esta registrado")
-                alu.delete(0,END)
-                con.delete(0,END)
+                mostrar_ventana_dialogo("Alumno duplicado", "El alumno que usted desea registrar ya está registrado")
+                alu.delete(0, END)
+                con.delete(0, END)
                 return
             regist="insert into materias (alumno,contraseña,unidad) values(%s,%s,%s)"
             for x in range(1,5):

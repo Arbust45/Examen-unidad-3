@@ -208,8 +208,7 @@ def actualizar():
         bd.commit()
         a.close()
         ventana.withdraw()
-        mostrar_ventana_dialogo("Datos","Datos actualizados, porfavor inicie sesion nuevamente")
-        inicio()
+        llamar()
         
 
 class datos(CTkFrame):

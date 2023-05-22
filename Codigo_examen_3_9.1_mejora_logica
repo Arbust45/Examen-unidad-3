@@ -57,7 +57,7 @@ def limitar_entry(entrada, limit):
             if event.state == 0:
                 nueva_tecla = event.char.upper()
             else:
-                nueva_tecla = event.char.lower()
+                nueva_tecla = event.char.upper()
             entrada.insert('end', nueva_tecla)
             return "break"
         else:

@@ -263,7 +263,7 @@ class datos(CTkFrame):
         tabla.pack()
         
         style = ttk.Style(ven)
-        style.map("Treeview",background=[('selected', 'PeachPuff4')],foreground=[('selected', 'white')])
+        style.map("Treeview",background=[('selected', 'RosyBrown3')],foreground=[('selected', 'white')])
         
         
 def llamar():
@@ -295,80 +295,80 @@ def llamar():
     global Ingles
 
     ventana = CTk()
-    ventana.config(background="PeachPuff")
+    ventana.config(background="RosyBrown1")
     ventana.geometry("1250x245")
     ventana.resizable(0,0)
     ventana.title("Datos de usuario")
 
-    label1 = CTkLabel(ventana, text="Unidad:",bg_color="PeachPuff")
+    label1 = CTkLabel(ventana, text="Unidad:",bg_color="RosyBrown1")
     label1.place(y=0, x=750)
 
-    Unidad = CTkEntry(ventana)
+    Unidad = CTkEntry(ventana,bg_color="RosyBrown1")
     Unidad.place(y=0, x=850)
     limitar_entry_num(Unidad,1)
     
-    label2 = CTkLabel(ventana, text="Programacion:",bg_color="PeachPuff")
+    label2 = CTkLabel(ventana, text="Programacion:",bg_color="RosyBrown1")
     label2.place(y=30, x=750)
 
-    Programacion = CTkEntry(ventana,bg_color="PeachPuff")
+    Programacion = CTkEntry(ventana,bg_color="RosyBrown1")
     Programacion.place(y=30, x=850)
     limitar_entry_num(Programacion,3)
     
-    label3 = CTkLabel(ventana, text="Contabilidad:",bg_color="PeachPuff")
+    label3 = CTkLabel(ventana, text="Contabilidad:",bg_color="RosyBrown1")
     label3.place(y=60, x=750)
 
-    Conta = CTkEntry(ventana,bg_color="PeachPuff")
+    Conta = CTkEntry(ventana,bg_color="RosyBrown1")
     Conta.place(y=60, x=850)
     limitar_entry_num(Conta,3)
     
-    label4 = CTkLabel(ventana, text="Quimica:",bg_color="PeachPuff")
+    label4 = CTkLabel(ventana, text="Quimica:",bg_color="RosyBrown1")
     label4.place(y=90, x=750)
 
-    Quimica = CTkEntry(ventana,bg_color="PeachPuff")
+    Quimica = CTkEntry(ventana,bg_color="RosyBrown1")
     Quimica.place(y=90, x=850)
     limitar_entry_num(Quimica,3)
     
-    label5 = CTkLabel(ventana, text="Algebra:",bg_color="PeachPuff")
+    label5 = CTkLabel(ventana, text="Algebra:",bg_color="RosyBrown1")
     label5.place(y=0, x=1000)
 
-    Algebra = CTkEntry(ventana,bg_color="PeachPuff")
+    Algebra = CTkEntry(ventana,bg_color="RosyBrown1")
     Algebra.place(y=0, x=1100)
     limitar_entry_num(Algebra,3)
     
-    label6 = CTkLabel(ventana, text="Calculo:",bg_color="PeachPuff")
+    label6 = CTkLabel(ventana, text="Calculo:",bg_color="RosyBrown1")
     label6.place(y=30, x=1000)
 
-    Calculo = CTkEntry(ventana,bg_color="PeachPuff")
+    Calculo = CTkEntry(ventana,bg_color="RosyBrown1")
     Calculo.place(y=30, x=1100)
     limitar_entry_num(Calculo,3)
     
-    label7 = CTkLabel(ventana, text="Probabilidad:",bg_color="PeachPuff")
+    label7 = CTkLabel(ventana, text="Probabilidad:",bg_color="RosyBrown1")
     label7.place(y=60, x=1000)
 
-    Probabilidad = CTkEntry(ventana,bg_color="PeachPuff")
+    Probabilidad = CTkEntry(ventana,bg_color="RosyBrown1")
     Probabilidad.place(y=60, x=1100)
     limitar_entry_num(Probabilidad,3)
     
-    label8 = CTkLabel(ventana, text="Inglés:",bg_color="PeachPuff")
+    label8 = CTkLabel(ventana, text="Inglés:",bg_color="RosyBrown1")
     label8.place(y=90, x=1000)
 
-    Ingles = CTkEntry(ventana,bg_color="PeachPuff")
+    Ingles = CTkEntry(ventana,bg_color="RosyBrown1")
     Ingles.place(y=90, x=1100)
     limitar_entry_num(Ingles,3)
     
     app = datos(ventana)
     app.place(x=10, y=10)
 
-    boton1 = CTkButton(ventana, text="Actualizar",command=actualizar, width=10,bg_color="PeachPuff",fg_color=("#DB3E39","#821D1A"))
+    boton1 = CTkButton(ventana, text="Actualizar",command=actualizar, width=10,bg_color="RosyBrown1",fg_color=("#DB3E39","#821D1A"))
     boton1.place(x=200, y=200)
 
-    boton2 = CTkButton(ventana, text="Salir", width=10,command=cerrar_sesion,bg_color="PeachPuff",fg_color=("#DB3E39","#821D1A"))
+    boton2 = CTkButton(ventana, text="Salir", width=10,command=cerrar_sesion,bg_color="RosyBrown1",fg_color=("#DB3E39","#821D1A"))
     boton2.place(x=800, y=200)
     
-    boton3 = CTkButton(ventana,text="Eliminar",command=eliminar,width=10,bg_color="PeachPuff",fg_color=("#DB3E39","#821D1A"))
+    boton3 = CTkButton(ventana,text="Eliminar",command=eliminar,width=10,bg_color="RosyBrown1",fg_color=("#DB3E39","#821D1A"))
     boton3.place(x=600,y=200)
     
-    boton4 = CTkButton(ventana,text="Promedio final",command=promedio_final, width=10,bg_color="PeachPuff",fg_color=("#DB3E39","#821D1A"))
+    boton4 = CTkButton(ventana,text="Promedio final",command=promedio_final, width=10,bg_color="RosyBrown1",fg_color=("#DB3E39","#821D1A"))
     boton4.place(x=400,y=200)
     
     ventana.mainloop()
@@ -424,7 +424,7 @@ def inicio():
 
 
   inicio_sesion=CTk()
-  inicio_sesion.config(background="PeachPuff3")
+  inicio_sesion.config(background="RosyBrown2")
   inicio_sesion.title("Inicio de sesión")
   inicio_sesion.geometry("400x400")
   inicio_sesion.resizable(0,0)
@@ -432,33 +432,33 @@ def inicio():
   global alumno
   global contraseña
   
-  text0_2=CTkLabel(inicio_sesion,text="",bg_color="PeachPuff3")
+  text0_2=CTkLabel(inicio_sesion,text="",bg_color="RosyBrown2",text_color="Black")
   text0_2.pack(pady="10")
   
-  text1=CTkLabel(inicio_sesion,text="Ingrese su nombre",bg_color="PeachPuff3")
+  text1=CTkLabel(inicio_sesion,text="Ingrese su nombre",bg_color="RosyBrown2",text_color="Black")
   text1.pack()
     
-  alumno=CTkEntry(inicio_sesion,bg_color="PeachPuff3")
+  alumno=CTkEntry(inicio_sesion,bg_color="RosyBrown2")
   alumno.pack()
   limitar_entry(alumno,28)
   
-  text0=CTkLabel(inicio_sesion,text="",bg_color="PeachPuff3")
+  text0=CTkLabel(inicio_sesion,text="",bg_color="RosyBrown2")
   text0.pack(pady="15")
   
-  text2=CTkLabel(inicio_sesion,text="Ingrese su contraseña",bg_color="PeachPuff3")
+  text2=CTkLabel(inicio_sesion,text="Ingrese su contraseña",bg_color="RosyBrown2",text_color="Black")
   text2.pack()
   
-  contraseña=CTkEntry(inicio_sesion,show="*",bg_color="PeachPuff3")
+  contraseña=CTkEntry(inicio_sesion,show="*",bg_color="RosyBrown2")
   contraseña.pack()
   limitar_entry_contra(contraseña,30)
 
-  text0_1=CTkLabel(inicio_sesion,text="",bg_color="PeachPuff3")
+  text0_1=CTkLabel(inicio_sesion,text="",bg_color="RosyBrown2")
   text0_1.pack(pady="15")
   
-  boton=CTkButton(inicio_sesion,text="Continuar",command=iniciar,bg_color="PeachPuff3",fg_color=("#DB3E39","#821D1A"))
+  boton=CTkButton(inicio_sesion,text="Continuar",command=iniciar,bg_color="RosyBrown2",fg_color=("#DB3E39","#821D1A"))
   boton.pack(pady="1")
   
-  boton2=CTkButton(inicio_sesion,text="Regresar",command=regreso,bg_color="PeachPuff3",fg_color=("#DB3E39","#821D1A"))
+  boton2=CTkButton(inicio_sesion,text="Regresar",command=regreso,bg_color="RosyBrown2",fg_color=("#DB3E39","#821D1A"))
   boton2.pack(pady="10")
 
   inicio_sesion.mainloop()
@@ -487,13 +487,13 @@ def registro():
             registrar = bd.cursor()
             registrar.execute("SELECT * FROM materias WHERE alumno = %s", (str(alu.get()),))
             record = registrar.fetchall()
-            if any(row[1] != alu.get() for row in record):
-                pass
-            else:
+            if any(row[1] == alu.get() for row in record):
                 mostrar_ventana_dialogo("Alumno duplicado", "El alumno que usted desea registrar ya está registrado")
                 alu.delete(0, END)
                 con.delete(0, END)
                 return
+            else:
+                pass
             regist="insert into materias (alumno,contraseña,unidad) values(%s,%s,%s)"
             for x in range(1,5):
                 rar=(str(alu.get()),str(con.get()), x)
@@ -517,38 +517,38 @@ def registro():
     ventana.withdraw()
   
     ventana74=CTk()
-    ventana74.config(bg="Peachpuff3")
+    ventana74.config(bg="RosyBrown2")
     ventana74.title("Registro de alumno")
     ventana74.geometry("400x400")
     ventana74.resizable(0,0)
     
-    text0=CTkLabel(ventana74,text="",bg_color="PeachPuff3")
+    text0=CTkLabel(ventana74,text="",bg_color="RosyBrown2")
     text0.pack(pady="15")
     
-    text1=CTkLabel(ventana74,text="Ingrese su nombre",bg_color="PeachPuff3")
+    text1=CTkLabel(ventana74,text="Ingrese su nombre",bg_color="RosyBrown2",text_color="Black")
     text1.pack()
     
-    alu=CTkEntry(ventana74,bg_color="PeachPuff3")
+    alu=CTkEntry(ventana74,bg_color="RosyBrown2")
     alu.pack()
     limitar_entry(alu,28)
     
-    text0_1=CTkLabel(ventana74,text="",bg_color="PeachPuff3")
+    text0_1=CTkLabel(ventana74,text="",bg_color="RosyBrown2")
     text0_1.pack()
     
-    text2=CTkLabel(ventana74,text="Ingrese su contraseña",bg_color="PeachPuff3")
+    text2=CTkLabel(ventana74,text="Ingrese su contraseña",bg_color="RosyBrown2",text_color="Black")
     text2.pack()
 
-    con=CTkEntry(ventana74,bg_color="PeachPuff3")
+    con=CTkEntry(ventana74,bg_color="RosyBrown2")
     con.pack()
     limitar_entry_contra(con,30)
     
-    text0_2=CTkLabel(ventana74,text="",bg_color="PeachPuff3")
+    text0_2=CTkLabel(ventana74,text="",bg_color="RosyBrown2")
     text0_2.pack()
     
-    boton=CTkButton(ventana74,text="Continuar",command=registrar_a,bg_color="PeachPuff3",fg_color=("#DB3E39","#821D1A"))
+    boton=CTkButton(ventana74,text="Continuar",command=registrar_a,bg_color="RosyBrown2",fg_color=("#DB3E39","#821D1A"))
     boton.pack(pady="25")
     
-    boton6=CTkButton(ventana74,text="Regresar",command=regresar_a,bg_color="PeachPuff3",fg_color=("#DB3E39","#821D1A"))
+    boton6=CTkButton(ventana74,text="Regresar",command=regresar_a,bg_color="RosyBrown2",fg_color=("#DB3E39","#821D1A"))
     boton6.pack(pady="10")
     
     ventana74.mainloop()
@@ -560,13 +560,13 @@ def paz():
   global ventana
   
   ventana=CTk()
-  ventana.config(bg="peachpuff4")
+  ventana.config(bg="RosyBrown3")
   ventana.title("Sistema de calificaciones")
 
-  boton=CTkButton(ventana,text="Iniciar sesion",command=inicio,bg_color="peachpuff4",fg_color=("#DB3E39","#821D1A"))
+  boton=CTkButton(ventana,text="Iniciar sesion",command=inicio,bg_color="RosyBrown3",fg_color=("#DB3E39","#821D1A"))
   boton.pack(pady="100")
 
-  boton2=CTkButton(ventana,text="Registrar usuario",command=registro,bg_color="peachpuff4",fg_color=("#DB3E39","#821D1A"))
+  boton2=CTkButton(ventana,text="Registrar usuario",command=registro,bg_color="RosyBrown3",fg_color=("#DB3E39","#821D1A"))
   boton2.pack(pady="100")
   
   ventana.resizable(0,0)

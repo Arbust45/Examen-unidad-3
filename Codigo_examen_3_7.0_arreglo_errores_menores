@@ -5,7 +5,7 @@ import mysql.connector
 from tkinter import messagebox
 from tkinter import StringVar
 from tkinter import ttk
-customtkinter.set_default_color_theme("blue")
+customtkinter.set_default_color_theme("green")
 from customtkinter import CTk, CTkFrame, CTkLabel, CTkButton, CTkEntry
 
 
@@ -41,32 +41,38 @@ def mostrar_ventana_pregunta(titulo, mensaje):
 def limitar_entry_contra(entrada, limit):
     def limitar(event):
         texto = entrada.get()
-        if len(texto)>=limit and event.keysym != 'BackSpace':
-            return "break"
-        if event.char.isalpha():
+        if len(texto) >= limit and event.keysym != 'BackSpace' or ventana_abierta == True:
             return "break"
     entrada.bind("<Key>", limitar)
-    
+
+
 def limitar_entry(entrada, limit):
     def limitar(event):
         texto = entrada.get()
-        if len(texto) >= limit and event.keysym != 'BackSpace':
+        if len(texto) >= limit and event.keysym != 'BackSpace' or ventana_abierta == True:
             return "break"
-        if event.char.isalpha():
-            if event.state==0:
-                nueva_tecla=event.char.upper()
+        if event.keysym == 'BackSpace':
+            return
+        if event.char.isalpha() and len(texto) < limit:
+            if event.state == 0:
+                nueva_tecla = event.char.upper()
             else:
-                nueva_tecla=event.char.lower()
+                nueva_tecla = event.char.lower()
             entrada.insert('end', nueva_tecla)
             return "break"
+        else:
+            return "break"
     entrada.bind("<Key>", limitar)
+
 
 def limitar_entry_num(entrada, limit):
     def limitar(event):
         texto = entrada.get()
-        if len(texto)>=limit and not event.keysym=='BackSpace':
+        if len(texto) >= limit and event.keysym != 'BackSpace' or ventana_abierta == True:
             return "break"
-        if not event.char.isdigit() and not event.keysym=='BackSpace':
+        if event.char.isdigit() and len(texto) < limit or event.keysym == 'BackSpace':
+            return
+        else:
             return "break"
     entrada.bind("<Key>", limitar)
     
@@ -214,9 +220,11 @@ class datos(CTkFrame):
         self.ventana()
         
     def ventana(self):
-        ven = CTkFrame(self,bg_color="PeachPuff")
+        ven = ttk.Frame(self)
         ven.place(x=0, y=0)
+        
         tabla = ttk.Treeview(ven)
+        
         tabla["columns"] = ('Unidad', 'Programacion orientada a objetos', 'Contabilidad financiera', 'Quimica', 'Algebra lineal', 'Calculo integral', 'Probabilidad y estadistica', 'Ingles', 'Promedio')
         tabla.column('#0', width=0)
         tabla.column('Unidad', width=100)
@@ -239,7 +247,7 @@ class datos(CTkFrame):
         tabla.heading('Probabilidad y estadistica', text='probabilidad')
         tabla.heading('Ingles', text='Ingles')
         tabla.heading('Promedio', text='Promedio')
-        
+
         seleccionar = "select * from materias where alumno = %s and contraseña = %s"
         ta = bd.cursor()
         ta.execute(seleccionar, (alumno_s, contraseña_s,))
@@ -249,11 +257,15 @@ class datos(CTkFrame):
             if not isinstance(materias, tuple):
                 continue
             identificador = f"{materias[0]}_{materias[1]}"
-            tabla.insert(parent='', index='end', iid=identificador, values=(materias[0], materias[3], materias[4], materias[5], materias[6], materias[7], materias[8], materias[9], materias[10]))
+            tabla.insert(parent='', index='end', iid=identificador, values=(materias[0], materias[3], materias[4], materias[5], materias[6], materias[7], materias[8], materias[9], materias[10]), tags="CustomCell")
         ta.close()
         
         tabla.pack()
-
+        
+        style = ttk.Style(ven)
+        style.map("Treeview",background=[('selected', 'PeachPuff4')],foreground=[('selected', 'white')])
+        
+        
 def llamar():
     customtkinter.set_appearance_mode("light")
     def cerrar_sesion():
@@ -347,16 +359,16 @@ def llamar():
     app = datos(ventana)
     app.place(x=10, y=10)
 
-    boton1 = CTkButton(ventana, text="Actualizar",command=actualizar, width=10,bg_color="PeachPuff")
+    boton1 = CTkButton(ventana, text="Actualizar",command=actualizar, width=10,bg_color="PeachPuff",fg_color=("#DB3E39","#821D1A"))
     boton1.place(x=200, y=200)
 
-    boton2 = CTkButton(ventana, text="Salir", width=10,command=cerrar_sesion,bg_color="PeachPuff")
+    boton2 = CTkButton(ventana, text="Salir", width=10,command=cerrar_sesion,bg_color="PeachPuff",fg_color=("#DB3E39","#821D1A"))
     boton2.place(x=800, y=200)
     
-    boton3 = CTkButton(ventana,text="Eliminar",command=eliminar,width=10,bg_color="PeachPuff")
+    boton3 = CTkButton(ventana,text="Eliminar",command=eliminar,width=10,bg_color="PeachPuff",fg_color=("#DB3E39","#821D1A"))
     boton3.place(x=600,y=200)
     
-    boton4 = CTkButton(ventana,text="Promedio final",command=promedio_final, width=10,bg_color="PeachPuff")
+    boton4 = CTkButton(ventana,text="Promedio final",command=promedio_final, width=10,bg_color="PeachPuff",fg_color=("#DB3E39","#821D1A"))
     boton4.place(x=400,y=200)
     
     ventana.mainloop()
@@ -443,10 +455,10 @@ def inicio():
   text0_1=CTkLabel(inicio_sesion,text="",bg_color="PeachPuff3")
   text0_1.pack(pady="15")
   
-  boton=CTkButton(inicio_sesion,text="Continuar",command=iniciar,bg_color="PeachPuff3")
+  boton=CTkButton(inicio_sesion,text="Continuar",command=iniciar,bg_color="PeachPuff3",fg_color=("#DB3E39","#821D1A"))
   boton.pack(pady="1")
   
-  boton2=CTkButton(inicio_sesion,text="Regresar",command=regreso,bg_color="PeachPuff3")
+  boton2=CTkButton(inicio_sesion,text="Regresar",command=regreso,bg_color="PeachPuff3",fg_color=("#DB3E39","#821D1A"))
   boton2.pack(pady="10")
 
   inicio_sesion.mainloop()
@@ -533,10 +545,10 @@ def registro():
     text0_2=CTkLabel(ventana74,text="",bg_color="PeachPuff3")
     text0_2.pack()
     
-    boton=CTkButton(ventana74,text="Continuar",command=registrar_a,bg_color="PeachPuff3")
+    boton=CTkButton(ventana74,text="Continuar",command=registrar_a,bg_color="PeachPuff3",fg_color=("#DB3E39","#821D1A"))
     boton.pack(pady="25")
     
-    boton6=CTkButton(ventana74,text="Regresar",command=regresar_a,bg_color="PeachPuff3")
+    boton6=CTkButton(ventana74,text="Regresar",command=regresar_a,bg_color="PeachPuff3",fg_color=("#DB3E39","#821D1A"))
     boton6.pack(pady="10")
     
     ventana74.mainloop()
@@ -551,10 +563,10 @@ def paz():
   ventana.config(bg="peachpuff4")
   ventana.title("Sistema de calificaciones")
 
-  boton=CTkButton(ventana,text="Iniciar sesion",command=inicio,bg_color="peachpuff4")
+  boton=CTkButton(ventana,text="Iniciar sesion",command=inicio,bg_color="peachpuff4",fg_color=("#DB3E39","#821D1A"))
   boton.pack(pady="100")
 
-  boton2=CTkButton(ventana,text="Registrar usuario",command=registro,bg_color="peachpuff4")
+  boton2=CTkButton(ventana,text="Registrar usuario",command=registro,bg_color="peachpuff4",fg_color=("#DB3E39","#821D1A"))
   boton2.pack(pady="100")
   
   ventana.resizable(0,0)

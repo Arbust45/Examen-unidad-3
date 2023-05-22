@@ -103,7 +103,7 @@ def actualizar():
         mostrar_ventana_dialogo("Error de datos","Los datos ingresados en unidad deben de ser numeros\n\nError: "+str(error))
         Unidad.delete(0,END)
         return
-    if V_unidad>=1 and V_unidad<=5:
+    if V_unidad>=1 and V_unidad<=4:
             pass
     else:
         mostrar_ventana_dialogo("Unidad no valida","La unidad "+str(V_unidad)+" no es una unidad validad\nsolo se aceptan unidades del 1 al 4")

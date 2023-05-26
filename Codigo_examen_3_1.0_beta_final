@@ -1,13 +1,10 @@
 import customtkinter
-import re
 from tkinter import *
 import mysql.connector
 from tkinter import messagebox
-from tkinter import StringVar
 from tkinter import ttk
 customtkinter.set_default_color_theme("green")
 from customtkinter import CTk, CTkFrame, CTkLabel, CTkButton, CTkEntry
-
 
 bd = mysql.connector.connect(
     host="localhost",
@@ -37,14 +34,13 @@ def mostrar_ventana_pregunta(titulo, mensaje):
             return True
     else:
         return
-        
+
 def limitar_entry_contra(entrada, limit):
     def limitar(event):
         texto = entrada.get()
         if len(texto) >= limit and event.keysym != 'BackSpace' or ventana_abierta == True:
             return "break"
     entrada.bind("<Key>", limitar)
-
 
 def limitar_entry(entrada, limit):
     def limitar(event):
@@ -64,7 +60,6 @@ def limitar_entry(entrada, limit):
             return "break"
     entrada.bind("<Key>", limitar)
 
-
 def limitar_entry_num(entrada, limit):
     def limitar(event):
         texto = entrada.get()
@@ -75,7 +70,7 @@ def limitar_entry_num(entrada, limit):
         else:
             return "break"
     entrada.bind("<Key>", limitar)
-    
+
 def eliminar():
     confir=mostrar_ventana_pregunta("Eliminar alumno","¿Seguro que desea eliminar su cuenta?")
     if confir:
@@ -89,116 +84,113 @@ def eliminar():
         paz()
     else:
         return
-    
-    
+
 def actualizar():
     
     if not Unidad.get() or not Programacion.get() or not Conta.get() or not Quimica.get() or not Algebra.get() or not Calculo.get() or not Probabilidad.get() or not Ingles.get():
-        mostrar_ventana_dialogo("Vacio?","Los campos no pueden estar vacios")
+        mostrar_ventana_dialogo("¿Vacio?","Los campos no pueden estar vacíos")
         return
 
     try:
         V_unidad=int(Unidad.get())
     except ValueError as error:
-        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en unidad deben de ser numeros\n\nError: "+str(error))
+        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en unidad deben de ser números\n\nError: "+str(error))
         Unidad.delete(0,END)
         return
     if V_unidad>=1 and V_unidad<=4:
             pass
     else:
-        mostrar_ventana_dialogo("Unidad no valida","La unidad "+str(V_unidad)+" no es una unidad validad\nsolo se aceptan unidades del 1 al 4")
+        mostrar_ventana_dialogo("Unidad no valida","La unidad "+str(V_unidad)+" no es una unidad válida\nsolo se aceptan unidades del 1 al 4")
         return
-    
+
     try:
         V_programacion=int(Programacion.get())
     except ValueError as error:
-        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en programacion deben ser numeros")
+        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en programación deben ser números")
         Programacion.delete(0,END)
         return
     if V_programacion>=0 and V_programacion<=100:
         pass
     else:
-        mostrar_ventana_dialogo("¿Mayor calificacion?","error-materia: Programacion \nIngrese una calificacion del 0 al 100")
+        mostrar_ventana_dialogo("¿Mayor calificación?","Error-materia: Programación \nIngrese una calificacion del 0 al 100")
         return
-    
+
     try:
         V_conta=int(Conta.get())
     except ValueError:
-        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en Contabilidad deben ser numeros")
+        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en Contabilidad deben ser números")
         Conta.delete(0,END)
         return
     if V_conta>=0 and V_conta<=100:
         pass
     else:
-        mostrar_ventana_dialogo("¿Mayor calificacion?","error-materia: Contabilidad \nIngrese una calificacion del 0 al 100")
+        mostrar_ventana_dialogo("¿Mayor calificación?","Error-materia: Contabilidad \nIngrese una calificación del 0 al 100")
         return
-    
+
     try:
         V_quimi=int(Quimica.get())
     except ValueError:
-        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en Quimica deben ser numeros")
+        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en Química deben ser números")
         Quimica.delete(0,END)
         return
     if V_quimi>=0 and V_quimi<=100:
         pass
     else:
-        mostrar_ventana_dialogo("¿Mayor calificacion?","error-materia: Quimica \nIngrese una calificacion del 0 al 100")
+        mostrar_ventana_dialogo("¿Mayor calificación?","Error-materia: Química \nIngrese una calificación del 0 al 100")
         return
-
 
     try:
         V_alge=int(Algebra.get())
     except ValueError:
-        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en Algebra deben ser numeros")
+        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en Álgebra deben ser números")
         Algebra.delete(0,END)
         return
     if V_alge>=0 and V_alge<=100:
         pass
     else:
-        mostrar_ventana_dialogo("¿Mayor calificacion?","error-materia: Algebra \nIngrese una calificacion del 0 al 100")
+        mostrar_ventana_dialogo("¿Mayor calificacion?","Error-materia: Álgebra \nIngrese una calificación del 0 al 100")
         return  
 
     try:
         V_calu=int(Calculo.get())
     except ValueError:
-        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en Calculo deben ser numeros")
+        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en Cálculo deben ser números")
         Calculo.delete(0,END)
         return
     if V_calu>=0 and V_calu<=100:
         pass
     else:
-        mostrar_ventana_dialogo("¿Mayor calificacion?","error-materia: Calculo \nIngrese una calificacion del 0 al 100")
+        mostrar_ventana_dialogo("¿Mayor calificación?","Error-materia: Cálculo \nIngrese una calificación del 0 al 100")
         return  
 
     try:
         V_probabilidad=int(Probabilidad.get())
     except ValueError:
-        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en Probabilidad deben ser numeros")
+        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en Probabilidad deben ser números")
         Probabilidad.delete(0,END)
         return
     if V_probabilidad>=0 and V_probabilidad<=100:
         pass
     else:
-        mostrar_ventana_dialogo("¿Mayor calificacion?","error-materia: Probabilidad \nIngrese una calificacion del 0 al 100")
+        mostrar_ventana_dialogo("¿Mayor calificacion?","Error-materia: Probabilidad \nIngrese una calificación del 0 al 100")
         return  
 
     try:
         V_ingles=int(Ingles.get())
     except ValueError:
-        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en Inglés deben ser numeros")
+        mostrar_ventana_dialogo("Error de datos","Los datos ingresados en Inglés deben ser números")
         Ingles.delete(0,END)
         return
     if V_ingles>=0 and V_ingles<=100:
         pass
     else:
-        mostrar_ventana_dialogo("¿Mayor calificacion?","error-materia: Inglés \nIngrese una calificacion del 0 al 100")
+        mostrar_ventana_dialogo("¿Mayor calificacion?","Error-materia: Inglés \nIngrese una calificación del 0 al 100")
         return
     
     confirmar = mostrar_ventana_pregunta("Confirmar Actualización", "¿Está seguro de querer actualizar sus calificaciones?")
     
     if confirmar:
         
-
         alumno=alumno_s
         a=bd.cursor()
         proba=(V_alge+V_calu+V_conta+V_ingles+V_probabilidad+V_programacion+V_quimi)/7
@@ -210,7 +202,6 @@ def actualizar():
         ventana.withdraw()
         llamar()
         
-
 class datos(CTkFrame):
     def __init__(self, master: None):
         super().__init__(master, width=725, height=150)
@@ -223,30 +214,29 @@ class datos(CTkFrame):
         ven.place(x=0, y=0)
         
         tabla = ttk.Treeview(ven)
-        
         tabla["columns"] = ('Unidad', 'Programacion orientada a objetos', 'Contabilidad financiera', 'Quimica', 'Algebra lineal', 'Calculo integral', 'Probabilidad y estadistica', 'Ingles', 'Promedio')
-        tabla.column('#0', width=0)
-        tabla.column('Unidad', width=100)
-        tabla.column('Programacion orientada a objetos', width=100)
-        tabla.column('Contabilidad financiera', width=100)
-        tabla.column('Quimica', width=100)
-        tabla.column('Algebra lineal', width=100)
-        tabla.column('Calculo integral', width=100)
-        tabla.column('Probabilidad y estadistica', width=100)
-        tabla.column('Ingles', width=100)
-        tabla.column('Promedio', width=100)
+        tabla.column('#0', width=0,stretch=False)
+        tabla.column('Unidad', width=100,stretch=False)
+        tabla.column('Programacion orientada a objetos', width=100,stretch=False)
+        tabla.column('Contabilidad financiera', width=100,stretch=False)
+        tabla.column('Quimica', width=100,stretch=False)
+        tabla.column('Algebra lineal', width=100,stretch=False)
+        tabla.column('Calculo integral', width=100,stretch=False)
+        tabla.column('Probabilidad y estadistica', width=100,stretch=False)
+        tabla.column('Ingles', width=100,stretch=False)
+        tabla.column('Promedio', width=100,stretch=False)
         
         tabla.heading('#0', text='')
         tabla.heading('Unidad', text='Unidad')
-        tabla.heading('Programacion orientada a objetos', text='Programacion')
+        tabla.heading('Programacion orientada a objetos', text='Programación')
         tabla.heading('Contabilidad financiera', text='Contabilidad')
-        tabla.heading('Quimica', text='Quimica')
-        tabla.heading('Algebra lineal', text='Algebra')
-        tabla.heading('Calculo integral', text='Calculo')
-        tabla.heading('Probabilidad y estadistica', text='probabilidad')
-        tabla.heading('Ingles', text='Ingles')
+        tabla.heading('Quimica', text='Química')
+        tabla.heading('Algebra lineal', text='Álgebra')
+        tabla.heading('Calculo integral', text='Cálculo')
+        tabla.heading('Probabilidad y estadistica', text='Probabilidad')
+        tabla.heading('Ingles', text='Inglés')
         tabla.heading('Promedio', text='Promedio')
-
+        
         seleccionar = "select * from materias where alumno = %s and contraseña = %s"
         ta = bd.cursor()
         ta.execute(seleccionar, (alumno_s, contraseña_s,))
@@ -268,7 +258,7 @@ class datos(CTkFrame):
 def llamar():
     customtkinter.set_appearance_mode("light")
     def cerrar_sesion():
-        conf=mostrar_ventana_pregunta("Confirmar","Seguro que desea cerrar sesión?")
+        conf=mostrar_ventana_pregunta("Confirmar","¿Seguro que desea cerrar sesión?")
         if conf:
             ventana.withdraw()
             paz()
@@ -306,7 +296,7 @@ def llamar():
     Unidad.place(y=0, x=850)
     limitar_entry_num(Unidad,1)
     
-    label2 = CTkLabel(ventana, text="Programacion:",bg_color="RosyBrown1")
+    label2 = CTkLabel(ventana, text="Programación:",bg_color="RosyBrown1")
     label2.place(y=30, x=750)
 
     Programacion = CTkEntry(ventana,bg_color="RosyBrown1")
@@ -320,21 +310,21 @@ def llamar():
     Conta.place(y=60, x=850)
     limitar_entry_num(Conta,3)
     
-    label4 = CTkLabel(ventana, text="Quimica:",bg_color="RosyBrown1")
+    label4 = CTkLabel(ventana, text="Química:",bg_color="RosyBrown1")
     label4.place(y=90, x=750)
 
     Quimica = CTkEntry(ventana,bg_color="RosyBrown1")
     Quimica.place(y=90, x=850)
     limitar_entry_num(Quimica,3)
     
-    label5 = CTkLabel(ventana, text="Algebra:",bg_color="RosyBrown1")
+    label5 = CTkLabel(ventana, text="Álgebra:",bg_color="RosyBrown1")
     label5.place(y=0, x=1000)
 
     Algebra = CTkEntry(ventana,bg_color="RosyBrown1")
     Algebra.place(y=0, x=1100)
     limitar_entry_num(Algebra,3)
     
-    label6 = CTkLabel(ventana, text="Calculo:",bg_color="RosyBrown1")
+    label6 = CTkLabel(ventana, text="Cálculo:",bg_color="RosyBrown1")
     label6.place(y=30, x=1000)
 
     Calculo = CTkEntry(ventana,bg_color="RosyBrown1")
@@ -411,7 +401,7 @@ def inicio():
             
     else:
       
-      mostrar_ventana_dialogo("Datos incompletos", "No pueden quedar campos vacios")
+      mostrar_ventana_dialogo("Datos incompletos", "No pueden quedar campos vacíos")
         
   def regreso():
     if ventana_abierta:
@@ -439,7 +429,7 @@ def inicio():
     
   alumno=CTkEntry(inicio_sesion,bg_color="RosyBrown2")
   alumno.pack()
-  limitar_entry(alumno,28)
+  limitar_entry(alumno,17)
   
   text0=CTkLabel(inicio_sesion,text="",bg_color="RosyBrown2")
   text0.pack(pady="15")
@@ -449,7 +439,7 @@ def inicio():
   
   contraseña=CTkEntry(inicio_sesion,show="*",bg_color="RosyBrown2")
   contraseña.pack()
-  limitar_entry_contra(contraseña,30)
+  limitar_entry_contra(contraseña,20)
 
   text0_1=CTkLabel(inicio_sesion,text="",bg_color="RosyBrown2")
   text0_1.pack(pady="15")
@@ -468,18 +458,15 @@ def registro():
     def registrar_a():
         if ventana_abierta:
             return
-        if not alu.get().isalpha():
-            mostrar_ventana_dialogo("Error de datos","El nombre del alumnno no puede contener carcteres especiales o numeros")
-            alu.delete(0,END)
-            con.delete(0,END)
-            return
+
         if alu.get()=="" or con.get()=="":
       
-            mostrar_ventana_dialogo("Datos incompletos", "No pueden quedar campos vacios")
+            mostrar_ventana_dialogo("Datos incompletos", "No pueden quedar campos vacíos")
+            return
      
         else:
             if alu.get()=="Kelly":
-                mostrar_ventana_dialogo("ALERTA KELLY","Eres Kelly fuera de aqui")
+                mostrar_ventana_dialogo("ALERTA KELLY","Eres Kelly fuera de aquí")
                 alu.delete(0,END)
                 con.delete(0,END)
                 return
@@ -487,7 +474,7 @@ def registro():
             registrar.execute("SELECT * FROM materias WHERE alumno = %s", (str(alu.get()),))
             record = registrar.fetchall()
             if any(row[1] == alu.get() for row in record):
-                mostrar_ventana_dialogo("Alumno duplicado", "El alumno que usted desea registrar ya está registrado")
+                mostrar_ventana_dialogo("Alumno duplicado", "El alumno que usted desea ingresar ya está registrado")
                 alu.delete(0, END)
                 con.delete(0, END)
                 return
@@ -504,7 +491,12 @@ def registro():
             
             ventana74.withdraw()
             paz()
-        
+            
+        if not alu.get().isalpha():
+            mostrar_ventana_dialogo("Error de datos","El nombre del alumnno no puede contener caracteres especiales o numeros")
+            alu.delete(0,END)
+            con.delete(0,END)
+            return
     def regresar_a():
         if ventana_abierta:
             return
@@ -529,7 +521,7 @@ def registro():
     
     alu=CTkEntry(ventana74,bg_color="RosyBrown2")
     alu.pack()
-    limitar_entry(alu,28)
+    limitar_entry(alu,17)
     
     text0_1=CTkLabel(ventana74,text="",bg_color="RosyBrown2")
     text0_1.pack()
@@ -539,7 +531,7 @@ def registro():
 
     con=CTkEntry(ventana74,bg_color="RosyBrown2")
     con.pack()
-    limitar_entry_contra(con,30)
+    limitar_entry_contra(con,20)
     
     text0_2=CTkLabel(ventana74,text="",bg_color="RosyBrown2")
     text0_2.pack()
@@ -562,7 +554,7 @@ def paz():
   ventana.config(bg="RosyBrown3")
   ventana.title("Sistema de calificaciones")
 
-  boton=CTkButton(ventana,text="Iniciar sesion",command=inicio,bg_color="RosyBrown3",fg_color=("#DB3E39","#821D1A"))
+  boton=CTkButton(ventana,text="Iniciar sesión",command=inicio,bg_color="RosyBrown3",fg_color=("#DB3E39","#821D1A"))
   boton.pack(pady="100")
 
   boton2=CTkButton(ventana,text="Registrar usuario",command=registro,bg_color="RosyBrown3",fg_color=("#DB3E39","#821D1A"))

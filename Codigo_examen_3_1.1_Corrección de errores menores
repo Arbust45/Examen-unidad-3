@@ -38,8 +38,10 @@ def mostrar_ventana_pregunta(titulo, mensaje):
 def limitar_entry_contra(entrada, limit):
     def limitar(event):
         texto = entrada.get()
-        if len(texto) >= limit and event.keysym != 'BackSpace' or ventana_abierta == True:
+        if len(texto) >= limit and event.keysym != 'BackSpace' or ((event.keysym == 'v' and (event.state & 4)) or (event.keysym == 'V' and (event.state & 4))) or ventana_abierta==True:
             return "break"
+        if event.keysym == 'BackSpace':
+            return
     entrada.bind("<Key>", limitar)
 
 def limitar_entry(entrada, limit):
